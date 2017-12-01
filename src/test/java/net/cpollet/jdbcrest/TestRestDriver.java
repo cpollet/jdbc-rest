@@ -1,6 +1,7 @@
 package net.cpollet.jdbcrest;
 
 import java.sql.Connection;
+import java.sql.DriverPropertyInfo;
 import java.sql.SQLException;
 
 import org.junit.Test;
@@ -75,5 +76,21 @@ public class TestRestDriver {
 		Connection connection2 = driver.connect("jdbc:rest://localhost:8000/database", null);
 
 		Truth.assertThat(connection1).isSameAs(connection2);
+	}
+
+	@Test
+	public void jdbcCompliant_returnsFalse() {
+		RestDriver driver = new RestDriver();
+
+		Truth.assertThat(driver.jdbcCompliant()).isFalse();
+	}
+
+	@Test
+	public void getPropertyInfo_returnsAnEmptyArray() throws SQLException {
+		RestDriver driver = new RestDriver();
+
+		DriverPropertyInfo[] propertyInfo = driver.getPropertyInfo(null, null);
+
+		Truth.assertThat(propertyInfo).isEmpty();
 	}
 }

@@ -41,7 +41,7 @@ public class RestDriver implements Driver {
 		}
 
 		if (connection == null) {
-			connection = new RestConnection();
+			connection = new RestConnection(url, info);
 		}
 
 		return connection;
@@ -74,6 +74,6 @@ public class RestDriver implements Driver {
 
 	@Override
 	public Logger getParentLogger() throws SQLFeatureNotSupportedException {
-		return null;
+		throw new SQLFeatureNotSupportedException();
 	}
 }
