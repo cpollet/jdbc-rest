@@ -145,7 +145,7 @@ public class RestConnection implements Connection {
 
     @Override
     public void close() throws SQLException {
-        this.isClosed = true;
+        isClosed = true;
     }
 
     @Override

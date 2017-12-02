@@ -12,9 +12,19 @@ import java.sql.Statement;
  * @author cpollet
  */
 public class RestStatement implements Statement {
+    private boolean closed;
+
+    public RestStatement() {
+        this.closed = false;
+    }
+
     @Override
     public ResultSet executeQuery(String sql) throws SQLException {
-        return null;
+        if (isClosed()) {
+            throw new SQLException("Statement closed");
+        }
+
+        return new RestResultSet();
     }
 
     @Override
@@ -24,7 +34,22 @@ public class RestStatement implements Statement {
 
     @Override
     public void close() throws SQLException {
+        closed = true;
+    }
 
+    @Override
+    public boolean isClosed() throws SQLException {
+        return closed;
+    }
+
+    @Override
+    public void closeOnCompletion() throws SQLException {
+
+    }
+
+    @Override
+    public boolean isCloseOnCompletion() throws SQLException {
+        return false;
     }
 
     @Override
@@ -198,27 +223,12 @@ public class RestStatement implements Statement {
     }
 
     @Override
-    public boolean isClosed() throws SQLException {
-        return false;
-    }
-
-    @Override
     public void setPoolable(boolean poolable) throws SQLException {
 
     }
 
     @Override
     public boolean isPoolable() throws SQLException {
-        return false;
-    }
-
-    @Override
-    public void closeOnCompletion() throws SQLException {
-
-    }
-
-    @Override
-    public boolean isCloseOnCompletion() throws SQLException {
         return false;
     }
 
